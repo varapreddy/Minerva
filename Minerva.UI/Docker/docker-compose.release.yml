@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  minerva.ui:
+    build:
+      context: ../..
+      dockerfile: app/Docker/Dockerfile.release
+    ports:
+      - "80:80"
