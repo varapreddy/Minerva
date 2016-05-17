@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Minerva.UI.Services;
 
 namespace Minerva.UI
 {
@@ -37,6 +38,7 @@ namespace Minerva.UI
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+            services.AddScoped<IMetricsService, MetricsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +67,7 @@ namespace Minerva.UI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Builds}/{action=Index}/{id?}");
             });
         }
     }

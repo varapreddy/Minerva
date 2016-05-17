@@ -15,7 +15,7 @@ namespace Minerva.UI.Services
 
         public MetricsService()
         {
-            BaseUrl = "http://127.0.0.1:5000";
+            BaseUrl = "http://23.253.76.48";
             Client = new HttpClient();
         }
 
@@ -23,8 +23,8 @@ namespace Minerva.UI.Services
         {
             var response = await Client.GetAsync($"{BaseUrl}/runs");
             var responseBody = await response.Content.ReadAsStringAsync();
-            var testRuns = JsonConvert.DeserializeObject<TestRunList>(responseBody);
-            return testRuns.TestRuns;
+            var testRuns = JsonConvert.DeserializeObject<List<TestRun>>(responseBody);
+            return testRuns;
         }
 
         public async Task<List<Test>> GetTestsAsync()
@@ -37,15 +37,15 @@ namespace Minerva.UI.Services
 
         public async Task<List<TestRun>> GetRunsByBuildNameAsync(string name)
         {
-            var response = await Client.GetAsync($"{BaseUrl}/build_name/{name}/runs");
+            var response = await Client.GetAsync($"{BaseUrl}/runs?build_name={name}");
             var responseBody = await response.Content.ReadAsStringAsync();
-            var testRuns = JsonConvert.DeserializeObject<TestRunList>(responseBody);
-            return testRuns.TestRuns;
+            var testRuns = JsonConvert.DeserializeObject<List<TestRun>>(responseBody);
+            return testRuns;
         }
 
         public async Task<Dictionary<string, TestResult>> GetTestResultsByRunId(string id)
         {
-            var response = await Client.GetAsync($"{BaseUrl}/run/{id}/test_runs");
+            var response = await Client.GetAsync($"{BaseUrl}/run/{id}/tests");
             var responseBody = await response.Content.ReadAsStringAsync();
             var results = JsonConvert.DeserializeObject<Dictionary<string, TestResult>>(responseBody);
             return results;

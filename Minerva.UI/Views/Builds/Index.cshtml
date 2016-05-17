@@ -1,0 +1,85 @@
+﻿@using Minerva.UI.ViewModels
+
+@model List<BuildsViewModel>
+
+<h2>Builds</h2>
+
+<script src="~/lib/chart.js/dist/Chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<div class="container">
+    <div class="row">
+        @foreach (var build in Model)
+        {
+            <div class="col-md-6" id="build-@build.LastTestRun.Id" data-passes="@build.LastTestRun.Passes" data-skips="@build.LastTestRun.Skips" data-failures="@build.LastTestRun.Fails">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-success">
+                        <a asp-controller="Builds" asp-action="Details" asp-route-name="@build.BuildName">@build.BuildName</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table class="table table-bordered table-condensed pull-left">
+                                    <tr>
+                                        <td>Last Executed</td>
+                                        <td>@build.LastTestRun.GetHumanRunAt()</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tests Passed</td>
+                                        <td>@build.LastTestRun.Passes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tests Failed</td>
+                                        <td>@build.LastTestRun.Fails</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tests Skipped</td>
+                                        <td>@build.LastTestRun.Skips</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <canvas id="doughnut-@build.BuildName" height="100" width="100"></canvas>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                var test_run = document.getElementById('build-@build.LastTestRun.Id');
+
+
+                                var data = {
+                                    labels: [
+                                        "passed",
+                                        "failed",
+                                        "skipped"
+                                    ],
+                                    datasets: [
+                                        {
+                                            data: [
+                                                parseInt(test_run.getAttribute('data-passes')),
+                                                parseInt(test_run.getAttribute('data-failures')),
+                                                parseInt(test_run.getAttribute('data-skips'))
+                                            ],
+                                            backgroundColor: [
+                                                "green",
+                                                "red",
+                                                "yellow"
+                                            ]
+
+                                        }
+                                    ]
+                                };
+
+                                var myDoughnut = new Chart(document.getElementById("doughnut-@build.BuildName"), { type: 'doughnut', data: data, options: { legend: {display: false}} });
+                            });
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
