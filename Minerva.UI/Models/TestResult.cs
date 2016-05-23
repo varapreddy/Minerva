@@ -33,6 +33,21 @@ namespace Minerva.UI.Models
 
         public int Id { get; set; }
 
+        public string GetRowStatus()
+        {
+            switch (Status)
+            {
+                case "fail":
+                    return "danger";
+                case "success":
+                    return "success";
+                case "skip":
+                    return "warning";
+                default:
+                    return "info";
+            }
+        }
+
     }
 
 }

@@ -29,22 +29,7 @@ namespace Minerva.UI.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var results = await _metricsService.GetTestResultsByRunId(id);
-
-            var model = new List<TestResultViewModel>();
-
-            foreach (KeyValuePair<string, TestResult> entry in results)
-            {
-                var resultVM = new TestResultViewModel
-                {
-                    Name = entry.Key,
-                    StartTime = entry.Value.StartTime,
-                    StopTime = entry.Value.StopTime,
-                    Status = entry.Value.Status
-                };
-                model.Add(resultVM);
-            }
-
+            var model = await _metricsService.GetTestResultsByRunId(id);
             return View(model);
         }
 

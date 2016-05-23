@@ -14,7 +14,7 @@ namespace Minerva.UI.Services
 
         Task<List<TestRun>> GetRunsByBuildNameAsync(string name);
 
-        Task<Dictionary<string, TestResult>> GetTestResultsByRunId(string id);
+        Task<List<TestResult>> GetTestResultsByRunId(string id);
     }
 
 }

@@ -1,0 +1,25 @@
+﻿@using Minerva.UI.Models
+
+@model List<TestResult>
+
+<h2>Test Results</h2>
+
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Started At</th>
+            <th>Ended At</th>
+        </tr>
+    </thead>
+    @foreach (var result in Model)
+    {
+        <tr class="@result.GetRowStatus()">
+            <td>@result.TestName</td>
+            <td>@result.Status</td>
+            <td>@result.StartTime</td>
+            <td>@result.StopTime</td>
+        </tr>
+    }
+</table>

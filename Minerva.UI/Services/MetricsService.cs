@@ -43,11 +43,11 @@ namespace Minerva.UI.Services
             return testRuns;
         }
 
-        public async Task<Dictionary<string, TestResult>> GetTestResultsByRunId(string id)
+        public async Task<List<TestResult>> GetTestResultsByRunId(string id)
         {
-            var response = await Client.GetAsync($"{BaseUrl}/run/{id}/tests");
+            var response = await Client.GetAsync($"{BaseUrl}/runs/{id}/tests");
             var responseBody = await response.Content.ReadAsStringAsync();
-            var results = JsonConvert.DeserializeObject<Dictionary<string, TestResult>>(responseBody);
+            var results = JsonConvert.DeserializeObject<List<TestResult>>(responseBody);
             return results;
         }
 
